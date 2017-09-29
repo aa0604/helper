@@ -20,7 +20,7 @@ class FormHelper
      */
     public static function dropDownData($data, $optionName = 'id', $optionValue= 'name')
     {
-        if (empty($data)) return null;
+        if (empty($data)) return [];
         $array = [];
         foreach ($data as $k => $v) {
             if (is_object($v)) {
