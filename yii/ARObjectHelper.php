@@ -113,6 +113,7 @@ class ARObjectHelper
     }
 
     /**
+     * 更新本层级
      * @param $parentFieldName
      * @param $childFieldName
      * @param $parentId
@@ -120,8 +121,7 @@ class ARObjectHelper
      */
     private function updateChildren($parentFieldName, $childFieldName, $parentId)
     {
-        $childrenIds = $this->getChildren($parentFieldName, $parentId);
-        if (empty($childrenIds)) return ;
+        $childrenIds = $this->getChildren($parentFieldName, $parentId) ?: '';
         $data = $this->model::findOne($parentId);
         $data->{$childFieldName} = $childrenIds;
 //        hr($data->id . '='.$childrenIds);
@@ -129,6 +129,12 @@ class ARObjectHelper
 
     }
 
+    /**
+     * 读取最后一级id
+     * @param $parentFieldName
+     * @param $id
+     * @return mixed
+     */
     public function readLowestId($parentFieldName, $id)
     {
         $primaryKey = $this->getPrimaryKey();
