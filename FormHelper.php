@@ -14,14 +14,14 @@ class FormHelper
     /**
      * 从数据中返回下拉框需要的数组
      * @param $data
-     * @param string $fieldName
-     * @param string $fieldValueName
-     * @return array|null
+     * @param string $optionName
+     * @param string $optionValue
+     * @param array $array
+     * @return array
      */
-    public static function dropDownData($data, $optionName = 'id', $optionValue= 'name')
+    public static function dropDownData($data, $optionName = 'id', $optionValue= 'name', $array = [])
     {
         if (empty($data)) return [];
-        $array = [];
         foreach ($data as $k => $v) {
             if (is_object($v)) {
                 $array[$v->{$optionName}] = $v->{$optionValue};
