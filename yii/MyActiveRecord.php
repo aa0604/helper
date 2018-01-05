@@ -98,16 +98,17 @@ class MyActiveRecord extends ActiveRecord
     /**
      * 获取内容
      * @param array $params
+     * @param bool $scenarios
      * @return static|ActiveRecord[]
      */
-    public static function getLists(array $params = array())
+    public static function getLists(array $params = array(), $scenarios = null)
     {
-        static::$pageSize = $pageSize = $params['pre-page'] ?? \Yii::$app->params['pageSizeParam'];
+        static::$pageSize = $pageSize = $params['pre-page'] ?? 15;
         $page = $params['page'] ?? 1;
         if (isset($params['page'])) unset($params['page']);
         if (isset($params['token'])) unset($params['token']);
         if (isset($params['per-page'])) unset($params['per-page']);
-        $query = static::getCondition($params)->offset($page * $pageSize - $pageSize)->limit($pageSize);
+        $query = static::getCondition($params, $scenarios)->offset($page * $pageSize - $pageSize)->limit($pageSize);
         static::$query = & $query;
         return $query->all();
     }
@@ -131,9 +132,10 @@ class MyActiveRecord extends ActiveRecord
      * 注：适用于子类继承此类来获取参数
      * 注：条件，排序可在些类完成
      * @param array $params
-     * @return \yii\db\ActiveQuery
+     * @param null $scenarios
+     * @return static|mixed|\yii\db\ActiveQuery
      */
-    protected static function getCondition(array $params = array())
+    protected static function getCondition(array $params = array(), $scenarios = null)
     {
         $model = static::getInstance();
         $model->load($params, isset($params[$model->formName()]) ? $model->formName() : '');
