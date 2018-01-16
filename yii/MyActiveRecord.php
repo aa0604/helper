@@ -108,6 +108,7 @@ class MyActiveRecord extends ActiveRecord
         if (isset($params['page'])) unset($params['page']);
         if (isset($params['token'])) unset($params['token']);
         if (isset($params['per-page'])) unset($params['per-page']);
+
         $query = static::getCondition($params, $scenarios)->offset($page * $pageSize - $pageSize)->limit($pageSize);
         static::$query = & $query;
         return $query->all();
@@ -141,9 +142,12 @@ class MyActiveRecord extends ActiveRecord
         $model->load($params, isset($params[$model->formName()]) ? $model->formName() : '');
         $where = [];
         foreach ($model as $k => $v) isset($params[$k]) && $where[$k] = $params[$k];
-        $order = (isset($model->primaryKey()[0]) && !empty($model->primaryKey()[0]))
-            ? [$model->primaryKey()[0] => SORT_DESC]
-            : [];
+        $order = [];
+        if (isset($params['sort']) && !empty($params['sort'])) {
+            $order = $params['sort'];
+        } elseif (isset($model->primaryKey()[0]) && !empty($model->primaryKey()[0])) {
+            $order = [$model->primaryKey()[0] => SORT_DESC];
+        }
         return $model::find()->where($where)->orderBy($order);
     }
     /**
