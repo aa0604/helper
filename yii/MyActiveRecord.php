@@ -145,6 +145,7 @@ class MyActiveRecord extends ActiveRecord
         $order = [];
         if (isset($params['sort']) && !empty($params['sort'])) {
             $order = $params['sort'];
+            unset($where['sort']);
         } elseif (isset($model->primaryKey()[0]) && !empty($model->primaryKey()[0])) {
             $order = [$model->primaryKey()[0] => SORT_DESC];
         }
