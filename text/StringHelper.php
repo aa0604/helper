@@ -92,4 +92,45 @@ class StringHelper
         }
         return $strcut.$dot;
     }
+
+    /**
+     * 隐藏电话号码
+     * @param $mobile
+     * @return string
+     */
+    public static function hideMobile($mobile)
+    {
+        return substr($mobile, 0, -4) .'***';
+    }
+
+    /**
+     * 隐藏名字
+     * @param $nickname
+     * @return string
+     */
+    public static function hideName($nickname)
+    {
+        if (empty($nickname)) return '匿名';
+        // 当前需求不要隐藏
+        $anonymous = '***';
+
+        $suffix = '';
+
+        preg_match_all('/./su', $nickname, $arr);
+        $count = count($arr[0]);
+        if (empty($arr[0])) return $anonymous;
+
+        if ($count < 4) {
+            $start = 0;
+            $end = $count;
+        } else {
+            $start = intval($count  * 0.3);
+            $end = intval($count * 0.7);
+        }
+        $return = '';
+        foreach ($arr[0] as $k => $v) {
+            $return .= ($k >= $start && $k <= $end) ? '*' : $v;
+        }
+        return $return.$suffix;
+    }
 }
