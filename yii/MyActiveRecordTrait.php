@@ -171,4 +171,18 @@ trait MyActiveRecordTrait
         return $data;
     }
 
+    /**
+     * LIKE 反向查询
+     * @param \yii\db\Query $query
+     * @param $filedName
+     * @return mixed
+     */
+    public function likeReverseSearch($query, $filedName, $like)
+    {
+
+        $select = implode(',', array_keys($this->attributeLabels())). "REVERSE({$filedName})";
+        $query->select($select)->andFilterWhere(['like', "REVERSE({$filedName})", "REVERSE('%{$like}'')"]);
+        return $query;
+    }
+
 }

@@ -64,10 +64,9 @@ trait MyCacheTrait
      * 删除缓存
      * @throws \Exception
      */
-    private function delCache()
+    public function delCache()
     {
-        $val = $this->primaryKey()[0];
-        $key = static::getKey($val);
+        $key = static::getKey($this->{$this->primaryKey()[0]});
         if(Yii::$app->cache->exists($key)) Yii::$app->cache->delete($key);
     }
 
@@ -78,15 +77,14 @@ trait MyCacheTrait
      */
     public static function findOne($where)
     {
-        if (!static::$cacheFindOne) return parent::findOne($where);
-
-        if (static::$cacheFindOne) {
-            $key = static::getKey(is_array($where) ? http_build_query($where) : $where);
+        if (static::$cacheFindOne && !is_array($where)) {
+            $key = static::getKey($where);
             $data = Yii::$app->cache->get($key);
             if (!empty($data)) return $data;
             $data = parent::findOne($where);
             Yii::$app->cache->set($key, $data, static::$cacheOneTime);
             return $data;
         }
+        return parent::findOne($where);
     }
 }
