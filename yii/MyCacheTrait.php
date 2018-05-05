@@ -64,7 +64,7 @@ trait MyCacheTrait
      * 删除缓存
      * @throws \Exception
      */
-    private function delCache()
+    public function delCache()
     {
         $val = $this->primaryKey()[0];
         $key = static::getKey($val);
