@@ -90,7 +90,7 @@ trait MyActiveRecordTrait
         $page = $params['page'] ?? 1;
         if (isset($params['page'])) unset($params['page']);
         if (isset($params['token'])) unset($params['token']);
-        if (isset($params['per-page'])) unset($params['per-page']);
+        if (isset($params['pre-page'])) unset($params['pre-page']);
 
         $query = static::getCondition($params, $scenarios)->offset($page * $pageSize - $pageSize)->limit($pageSize);
         static::$query = & $query;
