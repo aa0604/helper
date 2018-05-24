@@ -1,7 +1,5 @@
 <?php
 
-namespace xing\helper\text;
-
 /**
  * Created by PhpStorm.
  * User: Nph
@@ -40,12 +38,12 @@ class StringHelper
      * @param $length
      * @param $dot
      */
-    public static function strCut($string, $length, $dot = '...') {
+    public static function strCut($string, $length, $dot = '...', $charset = 'utf-8') {
         $strlen = strlen($string);
         if($strlen <= $length) return $string;
         $string = str_replace(array(' ','&nbsp;', '&amp;', '&quot;', '&#039;', '&ldquo;', '&rdquo;', '&mdash;', '&lt;', '&gt;', '&middot;', '&hellip;'), array('∵',' ', '&', '"', "'", '“', '”', '—', '<', '>', '·', '…'), $string);
         $strcut = '';
-        if(strtolower(CHARSET) == 'utf-8') {
+        if(strtolower($charset) == 'utf-8') {
             $length = intval($length-strlen($dot)-$length/3);
             $n = $tn = $noc = 0;
             while($n < strlen($string)) {
@@ -91,46 +89,5 @@ class StringHelper
             }
         }
         return $strcut.$dot;
-    }
-
-    /**
-     * 隐藏电话号码
-     * @param $mobile
-     * @return string
-     */
-    public static function hideMobile($mobile)
-    {
-        return substr($mobile, 0, -4) .'***';
-    }
-
-    /**
-     * 隐藏名字
-     * @param $nickname
-     * @return string
-     */
-    public static function hideName($nickname)
-    {
-        if (empty($nickname)) return '匿名';
-        // 当前需求不要隐藏
-        $anonymous = '***';
-
-        $suffix = '';
-
-        preg_match_all('/./su', $nickname, $arr);
-        $count = count($arr[0]);
-        if (empty($arr[0])) return $anonymous;
-
-        if ($count < 4) {
-            $start = 0;
-            $end = $count;
-        } else {
-            $start = intval($count  * 0.3);
-            $end = intval($count * 0.7);
-        }
-        $return = '';
-        foreach ($arr[0] as $k => $v) {
-            $return .= ($k >= $start && $k <= $end) ? '*' : $v;
-        }
-        return $return.$suffix;
     }
 }
