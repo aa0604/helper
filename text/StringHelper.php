@@ -1,5 +1,6 @@
 <?php
 
+namespace xing\helper\text;
 /**
  * Created by PhpStorm.
  * User: Nph
