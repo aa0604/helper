@@ -81,10 +81,10 @@ trait MyActiveRecordTrait
     /**
      * 获取内容
      * @param array $params
-     * @param bool $scenarios
+     * @param string $select
      * @return static|ActiveRecord[]
      */
-    public static function getLists(array $params = array(), $scenarios = null)
+    public static function getLists(array $params = array(), $select = '*')
     {
         static::$pageSize = $pageSize = $params['pre-page'] ?? 15;
         $page = $params['page'] ?? 1;
@@ -92,7 +92,8 @@ trait MyActiveRecordTrait
         if (isset($params['token'])) unset($params['token']);
         if (isset($params['pre-page'])) unset($params['pre-page']);
 
-        $query = static::getCondition($params, $scenarios)->offset($page * $pageSize - $pageSize)->limit($pageSize);
+        $offset = $page * $pageSize - $pageSize;
+        $query = static::getCondition($params)->select($select)->offset($offset)->limit($pageSize);
         static::$query = & $query;
         return $query->all();
     }
@@ -116,10 +117,10 @@ trait MyActiveRecordTrait
      * 注：适用于子类继承此类来获取参数
      * 注：条件，排序可在些类完成
      * @param array $params
-     * @param null $scenarios
+     * @param null $select
      * @return static|mixed|\yii\db\ActiveQuery
      */
-    protected static function getCondition(array $params = array(), $scenarios = null)
+    protected static function getCondition(array $params = array(), $select = '*')
     {
         $model = static::getInstance();
         $model->load($params, isset($params[$model->formName()]) ? $model->formName() : '');
