@@ -108,7 +108,8 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         $model = new <?= $modelClass ?>();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', <?= $urlParams ?>]);
+            return $this->redirect(['index']);
+            // return $this->redirect(['view', <?= $urlParams ?>]);
         }
 
         return $this->render('create', [
@@ -128,7 +129,8 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         $model = $this->findModel(<?= $actionParams ?>);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', <?= $urlParams ?>]);
+            return $this->redirect(['index']);
+            // return $this->redirect(['view', <?= $urlParams ?>]);
         }
 
         return $this->render('update', [
