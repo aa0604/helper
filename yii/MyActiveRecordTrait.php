@@ -82,7 +82,7 @@ trait MyActiveRecordTrait
      * 获取内容
      * @param array $params
      * @param string $select
-     * @return static|ActiveRecord[]
+     * @return array|\yii\db\ActiveRecord[]|$this[]
      */
     public static function getLists(array $params = array(), $select = '*')
     {
@@ -93,7 +93,8 @@ trait MyActiveRecordTrait
         if (isset($params['pre-page'])) unset($params['pre-page']);
 
         $offset = $page * $pageSize - $pageSize;
-        $query = static::getCondition($params)->select($select)->offset($offset)->limit($pageSize);
+        $query = static::getCondition($params)->offset($offset)->limit($pageSize);
+        ($select != '*' && !empty($select)) && $query->select($select);
         static::$query = & $query;
         return $query->all();
     }
@@ -136,7 +137,7 @@ trait MyActiveRecordTrait
         return $model::find()->where($where)->orderBy($order);
     }
     /**
-     * @return static|mixed|\yii\db\ActiveQuery
+     * @return static|$this|\yii\db\ActiveQuery
      */
     public static function getInstance()
     {

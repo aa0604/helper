@@ -43,9 +43,7 @@ trait MyCacheTrait
      */
     public function save($runValidation = true, $attributeNames = null)
     {
-        if (!$this::$cacheFindOne) return parent::save($runValidation, $attributeNames);
-
-        $this->delCache();
+        if ($this::$cacheFindOne) $this->delCache();
         return parent::save($runValidation, $attributeNames);
     }
 
