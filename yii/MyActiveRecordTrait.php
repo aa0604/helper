@@ -86,8 +86,8 @@ trait MyActiveRecordTrait
      */
     public static function getLists(array $params = array(), $select = '*')
     {
-        static::$pageSize = $pageSize = $params['pre-page'] ?? 15;
-        $page = $params['page'] ?? 1;
+        static::$pageSize = $pageSize = intval($params['pre-page'] ?? 15);
+        $page = intval($params['page'] ?? 1);
         if (isset($params['page'])) unset($params['page']);
         if (isset($params['token'])) unset($params['token']);
         if (isset($params['pre-page'])) unset($params['pre-page']);
