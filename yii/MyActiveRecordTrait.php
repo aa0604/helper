@@ -105,11 +105,11 @@ trait MyActiveRecordTrait
     public static function getPagination()
     {
         $count = static::$query->count();
-        return [
-            'totalCount' => (string) $count,
-            'pageSize' => (string) static::$pageSize,
-            'maxPage' => (string) intval($count / static::$pageSize + 1),
-        ];
+        return new \yii\data\Pagination([
+            'totalCount' => $count,
+            'pageSize' => static::$pageSize,
+//            'maxPage' => (string) intval($count / static::$pageSize + 1),
+        ]);
     }
 
 
