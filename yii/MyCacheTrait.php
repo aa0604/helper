@@ -9,6 +9,7 @@
 namespace xing\helper\yii;
 
 use Yii;
+use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 
 trait MyCacheTrait
@@ -38,7 +39,7 @@ trait MyCacheTrait
      * 新增，保存
      * @param bool $runValidation
      * @param null $attributeNames
-     * @return mixed
+     * @return bool
      * @throws \Exception
      */
     public function save($runValidation = true, $attributeNames = null)
@@ -49,7 +50,7 @@ trait MyCacheTrait
 
     /**
      * 删除数据
-     * @return mixed
+     * @return int|false
      * @throws \Exception
      */
     public function delete()
@@ -71,7 +72,7 @@ trait MyCacheTrait
     /**
      * 读取一条数据
      * @param $where
-     * @return mixed
+     * @return static|ActiveRecord|null
      */
     public static function findOne($where)
     {
