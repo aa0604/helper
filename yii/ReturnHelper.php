@@ -89,11 +89,13 @@ class ReturnHelper
     public static function returnData($data, $msg = '', $status = '1', $code = '0')
     {
         if (is_object($data)) $data = $data->toArray();
-        $return['status'] = (string) $status;
-        $return['code'] = (string) $code ?: 0;
-        $return['message'] = (string) $msg;
-        $return['data'] = $data ?: [];
-        if(empty($return['data'])) $return['code'] = (string) $code ?: '-1';
+        $return = [
+            'status' => (string) $status,
+            'code' => (string) $code ?: 0,
+            'message' => (string) $msg,
+            'data' => $data ?: [],
+        ];
+        if(empty($return['data'])) $return['code'] = (string) $return['code'] ?: '-1';
         $return['data'] = static::transformation($return['data']);
         return $return;
     }
