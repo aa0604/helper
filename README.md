@@ -1,11 +1,14 @@
 # helper
 ## 安装
 
-推荐使用composer进行安装
+#### 推荐使用composer进行安装
 
 ```
 composer require xing.chen/helper dev-master
 ```
+#### 依赖安装
+如需要以下功能，请另行手动输入composer安装。
+电子表格：composer require endroid/qr-code
 ## 文件目录
 ```php
 - resource
