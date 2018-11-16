@@ -55,4 +55,22 @@ class HttpHelper
 
         return $html;
     }
+    /**
+     * @param $file_url
+     * @param $save_to
+     * @return bool
+     */
+    public static function downloadFile($url, $savePath)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, 0);
+        curl_setopt($ch,CURLOPT_URL, $file_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $file_content = curl_exec($ch);
+        curl_close($ch);
+        $downloaded_file = fopen($save_to, 'w');
+        fwrite($downloaded_file, $file_content);
+        fclose($downloaded_file);
+        return true;
+    }
 }
