@@ -64,13 +64,13 @@ class HttpHelper
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 0);
-        curl_setopt($ch,CURLOPT_URL, $file_url);
+        curl_setopt($ch,CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $file_content = curl_exec($ch);
+        $fileContent = curl_exec($ch);
         curl_close($ch);
-        $downloaded_file = fopen($save_to, 'w');
-        fwrite($downloaded_file, $file_content);
-        fclose($downloaded_file);
+        $downloadedFile = fopen($savePath, 'w');
+        fwrite($downloadedFile, $fileContent);
+        fclose($downloadedFile);
         return true;
     }
 }
