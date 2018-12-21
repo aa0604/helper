@@ -25,8 +25,11 @@ class YiiQrCodeController extends \yii\web\Controller
     {
         $qrCode = new QrCode($text);
 
-        header('Content-Type: '.$qrCode->getContentType());
-        header('Content-Disposition: qr-code.png');
+//        header('Content-Type: '.$qrCode->getContentType());
+
+        header("Content-type: application/octet-stream");
+        header("Accept-Rangers: bytes");
+        header("Content-Disposition: attachment;filename=qr-code.png");
         echo $qrCode->writeString();
 
     }
