@@ -25,21 +25,11 @@ class YiiQrCodeController extends \yii\web\Controller
     {
         $qrCode = new QrCode($text);
 
-        $ua = $_SERVER ["HTTP_USER_AGENT"];
-
         $filename = basename ( $_GET['filename'] ?? 'qr-code.png' );
-        $encodedFilename = rawurlencode ( $filename );
-
-        if (preg_match ( "/MSIE/", $ua )) {
-            header ( 'Content-Disposition: attachment; filename="' . $encodedFilename . '"' );
-        } else if (preg_match ( "/Firefox/", $ua )) {
-            header ( "Content-Disposition: attachment; filename*=\"utf8''" . $filename . '"' );
-        } else {
-            header ( 'Content-Disposition: attachment; filename="' . $filename . '"' );
-        }
-        header("Content-type: application/octet-stream");
-        header("Accept-Rangers: bytes");
+        header('Content-Type: '.$qrCode->getContentType());
+        header ( 'Content-Disposition: attachment; filename="' . $filename . '"' );
         echo $qrCode->writeString();
+        exit();
 
     }
 }
