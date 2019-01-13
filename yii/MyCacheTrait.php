@@ -30,7 +30,7 @@ trait MyCacheTrait
         } else if (method_exists(static::className(), 'collectionName')) {
             $table = implode('.', static::collectionName());
         } else {
-            $table = static::className();
+            throw new \Exception('没能获取表名');
         }
         return 'AR:'.$table . ':PK:' . $val;
     }
