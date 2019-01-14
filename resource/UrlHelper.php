@@ -14,8 +14,7 @@ class UrlHelper
 
     public static function addParams($url, $params = null)
     {
-        if (empty($url))
-        if (empty($params)) return $url;
+        if (empty($url) || empty($params)) return $url;
 
         $string = http_build_query($params);
         return $url . (preg_match('/\?/', $url) ? '&' : '?') . $string;
