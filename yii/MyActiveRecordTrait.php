@@ -134,7 +134,7 @@ trait MyActiveRecordTrait
         } elseif (isset($model->primaryKey()[0]) && !empty($model->primaryKey()[0])) {
             $order = [$model->primaryKey()[0] => SORT_DESC];
         }
-        return $model::find()->where($where)->orderBy($order);
+        return $model::find()->filterWhere($where)->orderBy($order);
     }
     /**
      * @return static|$this|\yii\db\ActiveQuery
