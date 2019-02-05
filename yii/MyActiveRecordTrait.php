@@ -121,7 +121,7 @@ trait MyActiveRecordTrait
      * @param null $select
      * @return static|mixed|\yii\db\ActiveQuery
      */
-    protected static function getCondition(array $params = array(), $select = '*')
+    public static function getCondition(array $params = array(), $select = '*')
     {
         $model = static::getInstance();
         $model->load($params, isset($params[$model->formName()]) ? $model->formName() : '');

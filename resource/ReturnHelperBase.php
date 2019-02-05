@@ -129,12 +129,18 @@ class ReturnHelperBase
 
     public static function allowOrigin($domain = '')
     {
-        empty($HTTP_ORIGIN) && $HTTP_ORIGIN = $_SERVER['HTTP_ORIGIN'] ?? '';
+        empty($HTTP_ORIGIN) && $HTTP_ORIGIN = $_SERVER['HTTP_ORIGIN'] ?? '*';
 
         header("Access-Control-Allow-Origin: $HTTP_ORIGIN" );
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         header("Access-Control-Allow-Headers: Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With");
         header("Access-Control-Allow-Credentials:true");
         header("Access-Control-Max-Age:86400000");
+    }
+
+    public static function headerNoCache()
+    {
+        header('Cache-Control:no-cache, must-revalidate');
+        header('Pragma:no-cache');
     }
 }
