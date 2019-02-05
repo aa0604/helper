@@ -73,7 +73,7 @@ class ReturnHelper extends ReturnHelperBase
     public static function returnData($data, $msg = '', $status = '1', $code = '0')
     {
         if (is_object($data)) $data = $data->toArray();
-        return parent::returnList($data, $msg, $status, $code);
+        return parent::returnData($data, $msg, $status, $code);
     }
 
     /**
