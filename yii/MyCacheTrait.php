@@ -70,13 +70,13 @@ trait MyCacheTrait
     }
 
     /**
-     * 根据主键id值 删除缓存
+     * 根据主键id值删除缓存
      * @param $primaryId
      * @throws \Exception
      */
-    public function delCachePrimary($primaryId)
+    public static function delCachePrimary($primaryId)
     {
-        Yii::$app->cache->delete(static::getKey($key));
+        Yii::$app->cache->delete(static::getKey($primaryId));
     }
 
     /**
