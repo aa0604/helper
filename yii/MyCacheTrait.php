@@ -19,13 +19,12 @@ trait MyCacheTrait
 
     /**
      * 获取key
-     * @param string|array $val
+     * @param $val
      * @return string
      * @throws \Exception
      */
     private static function getKey($val)
     {
-        is_array($val) && $val = http_build_query($val);
         if (method_exists(static::className(), 'tableName')) {
             $table = static::tableName();
         } else if (method_exists(static::className(), 'collectionName')) {
@@ -77,7 +76,7 @@ trait MyCacheTrait
      */
     public static function findOne($where)
     {
-        if (static::$cacheFindOne) {
+        if (static::$cacheFindOne && !is_array($where)) {
             $key = static::getKey($where);
             $data = Yii::$app->cache->get($key);
             if (!empty($data)) return $data;
