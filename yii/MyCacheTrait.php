@@ -70,6 +70,16 @@ trait MyCacheTrait
     }
 
     /**
+     * 根据主键id值 删除缓存
+     * @param $primaryId
+     * @throws \Exception
+     */
+    public function delCachePrimary($primaryId)
+    {
+        Yii::$app->cache->delete(static::getKey($key));
+    }
+
+    /**
      * 读取一条数据
      * @param $where
      * @return static|ActiveRecord|null
