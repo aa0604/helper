@@ -40,8 +40,8 @@ class ReturnHelperBase
     public static function return($return, $msg = 'ok', $status = '1', $code = '0')
     {
         $return = static::transformation($return);
-        $return['status'] = (string) $status;
-        $return['code'] = (string) $code;
+        $return['status'] = $status;
+        $return['code'] = $code;
         $return['message'] = (string) $msg;
         return $return;
     }
@@ -53,13 +53,13 @@ class ReturnHelperBase
      * @param string $code
      * @return mixed
      */
-    public static function returnList($list, $msg = 'ok', $status = '1', $code = '0')
+    public static function returnList($list, $msg = 'ok', $status = 1, $code = 0)
     {
-        $return['status'] = (string) $status;
-        $return['code'] = (string) $code ?: 0;
+        $return['status'] = $status;
+        $return['code'] = $code ?: 0;
         $return['message'] = (string) $msg;
         $return['list'] = $list ?: [];
-        if(empty($return['list'])) $return['code'] = (string) $code ?: '-1';
+        if(empty($return['list'])) $return['code'] = $code ?: -1;
         if (!empty($return['list']) && is_array($return['list'])) $return['list'] = static::transformation($return['list']);
         $return['runTime'] = static::$runTime;
         return $return;
@@ -72,15 +72,15 @@ class ReturnHelperBase
      * @param string $code
      * @return mixed
      */
-    public static function returnData($data, $msg = '', $status = '1', $code = '0')
+    public static function returnData($data, $msg = '', $status = 1, $code = 0)
     {
         $return = [
-            'status' => (string) $status,
-            'code' => (string) $code ?: 0,
+            'status' => $status,
+            'code' => $code ?: 0,
             'message' => (string) $msg,
             'data' => $data ?: [],
         ];
-        if(empty($return['data'])) $return['code'] = (string) $return['code'] ?: '-1';
+        if(empty($return['data'])) $return['code'] = $return['code'] ?: -1;
         $return['data'] = static::transformation($return['data']);
         return $return;
     }
@@ -119,9 +119,9 @@ class ReturnHelperBase
     public static function error($msg, $code = 0)
     {
         $data = [
-            'status' => '0',
+            'status' => 0,
             'message' => $msg,
-            'code' => (string) $code,
+            'code' => $code,
             'data' => [],
         ];
         return $data;
