@@ -86,11 +86,11 @@ trait MyActiveRecordTrait
      */
     public static function getLists(array $params = array(), $select = '*')
     {
-        static::$pageSize = $pageSize = intval($params['pre-page'] ?? 15);
+        static::$pageSize = $pageSize = intval($params['per-page'] ?? 15);
         $page = intval($params['page'] ?? 1);
         if (isset($params['page'])) unset($params['page']);
         if (isset($params['token'])) unset($params['token']);
-        if (isset($params['pre-page'])) unset($params['pre-page']);
+        if (isset($params['per-page'])) unset($params['per-page']);
 
         $offset = $page * $pageSize - $pageSize;
         $query = static::getCondition($params)->offset($offset)->limit($pageSize);
