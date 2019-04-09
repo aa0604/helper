@@ -51,4 +51,9 @@ class WeChatService
 
         return $this->device;
     }
+
+    public function getMiniProgram()
+    {
+        return Factory::miniProgram($this->weChatConfig);
+    }
 }
