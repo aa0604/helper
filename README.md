@@ -29,3 +29,46 @@ controllers/YiiQrCodeController 二维码：生成
 ./FormHelper.php 表单类助手
 -
 ```
+
+
+## 微信相关
+需要安装如下依赖
+
+composer require overtrue/wechat
+
+配置作为yii2组件使用
+```php
+<?php
+'components' => [
+'weChat' => [
+    'class' => 'xing\helper\yii\WeChat',
+    'weChatConfig' => [
+        'app_id' => 'app_id',
+        'secret' => 'secret',
+    ],
+]
+];
+$service = Yii::$app->weChat;
+
+```
+### 不依赖框架独立使用
+
+```php
+<?php
+$service = WeChatService::start(['app_id' => 'app_id', 'secret' => 'secret']);
+```
+### 使用示例
+
+```php
+<?php
+
+// 获取openId
+$openId = $service->getMiniProgramOpenId($code);
+
+// 获取微信能力调起授权
+$config = $service->buildConfig(['能力1', '能力2'], 'url');
+
+// 解密（比如获取用户手机）
+$sessionKey = $service->getSessionKey($code);
+$data = $service->decryptData($encryptedData, $iv, $sessionKey);
+```
