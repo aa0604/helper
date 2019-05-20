@@ -16,7 +16,7 @@ class ReturnHelperBase
 
     public static function showReturn($return, $msg = '', $status = '1', $code = '0')
     {
-        static::showJson(static::return($return, $msg, $status, $code));
+        static::showJson(static::returnJson($return, $msg, $status, $code));
     }
 
     /**
@@ -37,7 +37,7 @@ class ReturnHelperBase
      *
      * @var array|\yii\db\ActiveRecord  $return
      */
-    public static function return($return, $msg = 'ok', $status = '1', $code = '0')
+    public static function returnJson($return, $msg = 'ok', $status = '1', $code = '0')
     {
         $return = static::transformation($return);
         $return['status'] = $status;
@@ -101,12 +101,12 @@ class ReturnHelperBase
 
     public static function jsonSuccess($msg, $url = '', $code = '')
     {
-        static::showJson(static::return(['url' => $url], $msg, '1', $code));
+        static::showJson(static::returnJson(['url' => $url], $msg, '1', $code));
     }
 
     public static function jsonError($msg, $url = '', $code = '')
     {
-        static::showJson(static::return(['url' => $url], $msg, '0', $code));
+        static::showJson(static::returnJson(['url' => $url], $msg, '0', $code));
     }
 
 
@@ -129,7 +129,7 @@ class ReturnHelperBase
 
     public static function allowOrigin($domain = '')
     {
-        empty($HTTP_ORIGIN) && $HTTP_ORIGIN = $_SERVER['HTTP_ORIGIN'] ?? '*';
+        empty($HTTP_ORIGIN) && $HTTP_ORIGIN = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
 
         header("Access-Control-Allow-Origin: $HTTP_ORIGIN" );
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");

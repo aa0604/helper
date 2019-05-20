@@ -41,7 +41,7 @@ trait MyActiveRecordTrait
         if (empty($id)) return '';
 
         $data = static::findOne($id);
-        return $data->{$returnKey} ?? '';
+        return $data ? $data->{$returnKey} : '';
     }
 
 
@@ -64,7 +64,7 @@ trait MyActiveRecordTrait
     public static function getParams($params)
     {
         $formName = static::getInstance()->formName();
-        return $params[$formName] ?? $params;
+        return isset($params[$formName]) ? $params[$formName] : $params;
     }
 
     /**
@@ -86,8 +86,8 @@ trait MyActiveRecordTrait
      */
     public static function getLists(array $params = array(), $select = '*')
     {
-        static::$pageSize = $pageSize = intval($params['per-page'] ?? 15);
-        $page = intval($params['page'] ?? 1);
+        static::$pageSize = $pageSize = intval(isset($params['per-page']) ? $params['per-page'] : 15);
+        $page = intval(isset($params['page']) ? $params['page'] : 1);
         if (isset($params['page'])) unset($params['page']);
         if (isset($params['token'])) unset($params['token']);
         if (isset($params['per-page'])) unset($params['per-page']);
@@ -143,7 +143,7 @@ trait MyActiveRecordTrait
     {
         static $cache;
         $className = get_called_class();
-        return $cache[$className] ?? new $className;
+        return isset($cache[$className]) ? $cache[$className] : new $className;
     }
 
 

@@ -43,10 +43,10 @@ class ReturnHelper extends ReturnHelperBase
      *
      * @var array|\yii\db\ActiveRecord  $return
      */
-    public static function return($return, $msg = 'ok', $status = '1', $code = '0')
+    public static function returnJson($return, $msg = 'ok', $status = '1', $code = '0')
     {
         if (is_object($return)) $return = $return->toArray();
-        return parent::return($return, $msg, $status, $code);
+        return parent::returnJson($return, $msg, $status, $code);
     }
 
 
