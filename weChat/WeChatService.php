@@ -86,7 +86,7 @@ class WeChatService
     {
         $weChat = $this->getMiniProgram();
         $res = $weChat->auth->session($code);
-        return $res['session_key'];
+        return $res['session_key'] ?? null;
     }
 
     /**

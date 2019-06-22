@@ -14,9 +14,9 @@ class ReturnHelperBase
 
     public static $runTime;
 
-    public static function showReturn($return, $msg = '', $status = '1', $code = '0')
+    public static function showReturn($return, $msg = '', $status = 1, $code = 0)
     {
-        static::showJson(static::returnJson($return, $msg, $status, $code));
+        static::showJson(static::return($return, $msg, $status, $code));
     }
 
     /**
@@ -37,12 +37,12 @@ class ReturnHelperBase
      *
      * @var array|\yii\db\ActiveRecord  $return
      */
-    public static function returnJson($return, $msg = 'ok', $status = '1', $code = '0')
+    public static function returnJson($return, $msg = 'ok', $status = 1, $code = 1)
     {
         $return = static::transformation($return);
-        $return['status'] = $status;
-        $return['code'] = $code;
-        $return['message'] = (string) $msg;
+        $return['status'] = (int) ($return['status'] ?? $status);
+        $return['code'] = (int) ($return['code'] ?? $code);
+        $return['message'] = (string) ($return['message'] ?? $msg);
         return $return;
     }
 
@@ -94,19 +94,19 @@ class ReturnHelperBase
         exit(json_encode($data));
     }
 
-    public static function showData($data, $status = '1', $msg = '', $code = '')
+    public static function showData($data, $status = 1, $msg = '', $code = 0)
     {
         static::showJson(static::returnData($data, $msg, $status, $code));
     }
 
-    public static function jsonSuccess($msg, $url = '', $code = '')
+    public static function jsonSuccess($msg, $url = '', $code = 0)
     {
-        static::showJson(static::returnJson(['url' => $url], $msg, '1', $code));
+        static::showJson(static::return(['url' => $url], $msg, 1, $code));
     }
 
-    public static function jsonError($msg, $url = '', $code = '')
+    public static function jsonError($msg, $url = '', $code = 0)
     {
-        static::showJson(static::returnJson(['url' => $url], $msg, '0', $code));
+        static::showJson(static::return(['url' => $url], $msg, 0, $code));
     }
 
 

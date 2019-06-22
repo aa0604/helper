@@ -82,7 +82,7 @@ trait MyCacheTrait
     /**
      * 读取一条数据
      * @param $where
-     * @return static|ActiveRecord|null
+     * @return static|ActiveRecord|null|$this[]
      */
     public static function findOne($where)
     {

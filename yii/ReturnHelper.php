@@ -43,7 +43,7 @@ class ReturnHelper extends ReturnHelperBase
      *
      * @var array|\yii\db\ActiveRecord  $return
      */
-    public static function returnJson($return, $msg = 'ok', $status = '1', $code = '0')
+    public static function returnJson($return, $msg = 'ok', $status = 1, $code = 0)
     {
         if (is_object($return)) $return = $return->toArray();
         return parent::returnJson($return, $msg, $status, $code);
@@ -58,7 +58,7 @@ class ReturnHelper extends ReturnHelperBase
      * @param string $code
      * @return mixed
      */
-    public static function returnList($list, $msg = 'ok', $status = '1', $code = '0')
+    public static function returnList($list, $msg = 'ok', $status = 1, $code = 0)
     {
         if (is_object($list)) $list = $list->toArray();
         return parent::returnList($list, $msg, $status, $code);
@@ -70,7 +70,7 @@ class ReturnHelper extends ReturnHelperBase
      * @param string $code
      * @return mixed
      */
-    public static function returnData($data, $msg = '', $status = '1', $code = '0')
+    public static function returnData($data, $msg = '', $status = 1, $code = 0)
     {
         if (is_object($data)) $data = $data->toArray();
         return parent::returnData($data, $msg, $status, $code);
