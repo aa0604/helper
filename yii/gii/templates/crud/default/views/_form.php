@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
     <?= "<?php " ?>$form = ActiveForm::begin([
     'options' => ['class' => 'form-horizontal'],
     'fieldConfig' => [
-    'template' => '<label class="col-sm-2 control-label">{label}</label><div class="col-sm-5">{input}</div>',
+    'template' => '<label class="col-sm-2 control-label">{label}</label><div class="col-sm-5">{input}</div><div class="col-sm-5">{input}{error}{hint}</div>',
     ],
     ]); ?>
 <div class="panel panel-primary">
