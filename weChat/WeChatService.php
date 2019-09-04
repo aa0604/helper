@@ -35,7 +35,7 @@ class WeChatService
     public static function start($weChatConfig)
     {
         $class = new self;
-        $class->weChatConfig = $config;
+        $class->weChatConfig = $weChatConfig;
         return $class;
     }
 
