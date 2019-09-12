@@ -21,16 +21,21 @@ class HttpHelper
      * @param array $post
      * @return string
      */
-    public static function post($url, $post = [])
+    public static function post($url, $post = [], $headers = [])
     {
-//        hr($url);
+        die($url);
         $ch = curl_init() ;
         if (!empty($post)) {
             $fields_string = is_array($post) ? http_build_query($post) : $post;
-//            curl_setopt($ch, CURLOPT_POST, count($post)) ;
-//            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string) ;
-            curl_setopt($ch, CURLOPT_POST, TRUE);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+//            die($fields_string);
+            curl_setopt($ch, CURLOPT_POST, count($post)) ;
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string) ;
+//            curl_setopt($ch, CURLOPT_POST, TRUE);
+//            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        }
+
+        if (!empty($headers)) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         }
         //SSL证书
         if (preg_match('/https:/i',$url)){
