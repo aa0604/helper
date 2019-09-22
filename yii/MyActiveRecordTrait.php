@@ -41,7 +41,7 @@ trait MyActiveRecordTrait
         if (empty($id)) return '';
 
         $model = static::getInstance();
-        static::find()->select([$returnKey])->where([$model->primaryKey()[0] => $id]);
+        $data = static::find()->select([$returnKey])->where([$model->primaryKey()[0] => $id])->one();
 //        $data = static::findOne($id);
         return $data ? $data->{$returnKey} : '';
     }
