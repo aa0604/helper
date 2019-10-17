@@ -41,6 +41,6 @@ trait CacheTrait
 
     public static function delCache($key)
     {
-        return Cache::delete(static::getCacheKey($key));
+        return Cache::forget(static::getCacheKey($key));
     }
 }
