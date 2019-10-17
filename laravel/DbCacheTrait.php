@@ -8,10 +8,8 @@ use Illuminate\Support\Facades\Cache;
 
 trait DbCacheTrait
 {
-
     public static $cacheOneTime = 3600; // 缓存时间
     public static $cacheFindOne = false;
-
 
     /**
      * 获取缓存key

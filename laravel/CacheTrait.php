@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Cache;
 
 trait CacheTrait
 {
-
     public static $cacheTime = 3600; // 缓存时间
 
     public static function boot()
