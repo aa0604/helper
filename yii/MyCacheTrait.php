@@ -89,7 +89,7 @@ trait MyCacheTrait
         if (static::$cacheFindOne && !is_array($where)) {
             $key = static::getKey($where);
             $data = Yii::$app->cache->get($key);
-            if (!empty($data)) return $data;
+            if (!empty($data) && !($data instanceof \__PHP_Incomplete_Class)) return $data;
             $data = parent::findOne($where);
             Yii::$app->cache->set($key, $data, static::$cacheOneTime);
             return $data;
