@@ -24,7 +24,7 @@ class HttpHelper
     public static function post($url, $post = [])
     {
 //        hr($url);
-        $ch = curl_init() ;
+        $ch = static::init($url);
         if (!empty($post)) {
             $fields_string = is_array($post) ? http_build_query($post) : $post;
 //            curl_setopt($ch, CURLOPT_POST, count($post)) ;
@@ -32,15 +32,9 @@ class HttpHelper
             curl_setopt($ch, CURLOPT_POST, TRUE);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         }
-        //SSL证书
-        if (preg_match('/https:/i',$url)){
-            curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,!empty(static::$cert) ? true : false);
-            !empty(static::$cert) && curl_setopt($ch,CURLOPT_CAINFO, static::$cert);
-        }
 
         curl_setopt ($ch, CURLOPT_URL, $url);
 
-        curl_setopt ($ch, CURLOPT_TIMEOUT, static::$time); // 设置超时限制防止死循环
 //        curl_setopt ($ch, CURLOPT_ENCODING, "" ); //设置为客户端支持gzip压缩
         curl_setopt ($ch, CURLOPT_RETURNTRANSFER, TRUE); // 获取的信息以文件流的形式
         curl_setopt ($ch, CURLOPT_HEADER, 0); // 显示返回的Header区域内容
@@ -62,9 +56,8 @@ class HttpHelper
      */
     public static function downloadFile($url, $savePath)
     {
-        $ch = curl_init();
+        $ch = static::init($url);
         curl_setopt($ch, CURLOPT_POST, 0);
-        curl_setopt($ch,CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $fileContent = curl_exec($ch);
         curl_close($ch);
@@ -72,5 +65,49 @@ class HttpHelper
         fwrite($downloadedFile, $fileContent);
         fclose($downloadedFile);
         return true;
+    }
+    
+    public static function getFile($url)
+    {
+        $ch = static::init($url);
+        curl_setopt($ch, CURLOPT_POST, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $fileContent = curl_exec($ch);
+        curl_close($ch);
+        return $fileContent;
+    }
+
+    public static function getImageType($url)
+    {
+        $ch = static::init($url);
+// 获取头部信息
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
+
+        curl_exec($ch);
+        curl_close($ch);
+        $head = ob_get_contents();
+        ob_end_clean();
+
+        $regex = '/Content-Type:\s([\w-\/]+)/i';
+        preg_match($regex, $head, $matches);
+
+        return $matches[1] ?? null;
+    }
+    
+    private static function init($url)
+    {
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        //SSL证书
+        if (preg_match('/https:/i',$url)){
+            curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,!empty(static::$cert) ? true : false);
+            !empty(static::$cert) && curl_setopt($ch,CURLOPT_CAINFO, static::$cert);
+        }
+        curl_setopt ($ch, CURLOPT_TIMEOUT, static::$time); // 设置超时限制防止死循环
+        
+        return $ch;
+
     }
 }
