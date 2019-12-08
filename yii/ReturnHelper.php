@@ -27,7 +27,7 @@ class ReturnHelper extends ReturnHelperBase
         foreach ($data as $k => $v) {
             if (is_object($v)) {
                 if (method_exists($v, 'toArray')) $data[$k] = $v->toArray();
-                $data[$k] = json_decode(json_encode($v), 1);
+                else $data[$k] = json_decode(json_encode($v), 1);
             }
             if (is_array($data[$k])) {
                 $data[$k] = self::transformation($data[$k]);
@@ -75,7 +75,11 @@ class ReturnHelper extends ReturnHelperBase
      */
     public static function returnData($data, $msg = '', $status = 1, $code = 0)
     {
-        if (is_object($data)) $data = $data->toArray();
+        if (is_object($data)) {
+            method_exists($data, 'toArray')
+                ? $data = $data->toArray()
+                : json_decode(json_encode($data), 1);
+        }
         return parent::returnData($data, $msg, $status, $code);
     }
 
