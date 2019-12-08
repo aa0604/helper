@@ -25,7 +25,10 @@ class ReturnHelper extends ReturnHelperBase
     {
         if (empty($data) || is_string($data)) return $data;
         foreach ($data as $k => $v) {
-            if (is_object($v) && method_exists($v, 'toArray')) $data[$k] = $v->toArray();
+            if (is_object($v)) {
+                if (method_exists($v, 'toArray')) $data[$k] = $v->toArray();
+                $data[$k] = json_decode(json_encode($v), 1);
+            }
             if (is_array($data[$k])) {
                 $data[$k] = self::transformation($data[$k]);
             } else {
