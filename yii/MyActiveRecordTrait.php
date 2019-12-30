@@ -14,6 +14,7 @@ trait MyActiveRecordTrait
 
     public static $query;
     public static $pageSize;
+    public static $pageSizeDefalut = 20;
 
 
     /**
@@ -40,7 +41,8 @@ trait MyActiveRecordTrait
     {
         if (empty($id)) return '';
 
-        $data = static::findOne($id);
+        $model = static::getInstance();
+        $data = static::find()->select([$returnKey])->where([$model->primaryKey()[0] => $id])->one();
         return $data ? $data->{$returnKey} : '';
     }
 
@@ -86,7 +88,10 @@ trait MyActiveRecordTrait
      */
     public static function getLists(array $params = array(), $select = '*')
     {
-        static::$pageSize = $pageSize = intval(isset($params['per-page']) ? $params['per-page'] : 15);
+        static::$pageSize = $pageSize = intval(isset($params['per-page'])
+            ? $params['per-page']
+            : static::$pageSizeDefalut);
+
         $page = intval(isset($params['page']) ? $params['page'] : 1);
         if (isset($params['page'])) unset($params['page']);
         if (isset($params['token'])) unset($params['token']);
@@ -187,4 +192,16 @@ trait MyActiveRecordTrait
         return $query;
     }
 
+
+    /**
+     * @param $page
+     * @param int $pageSize
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getModel($page, $pageSize = null)
+    {
+        empty($pageSize) && $pageSize = static::$pageSizeDefalut;
+        $offset = $pageSize * $page - $pageSize;
+        return static::find()->offset($offset)->limit($pageSize);
+    }
 }
