@@ -35,13 +35,8 @@ class HttpHelper
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         }
 
-        curl_setopt ($ch, CURLOPT_URL, $url);
         if ($header) curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-//        curl_setopt ($ch, CURLOPT_COOKIEJAR, static::$cookie); // 存放Cookie信息的文件名称
-        curl_setopt ($ch, CURLOPT_COOKIEFILE, static::$cookie); // 读取上面所储
-
-//        curl_setopt ($ch, CURLOPT_ENCODING, "" ); //设置为客户端支持gzip压缩
         curl_setopt ($ch, CURLOPT_RETURNTRANSFER, TRUE); // 获取的信息以文件流的形式
         curl_setopt ($ch, CURLOPT_HEADER, 0); // 显示返回的Header区域内容
 
@@ -78,7 +73,17 @@ class HttpHelper
         $ch = static::init($url);
         curl_setopt($ch, CURLOPT_POST, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "accept:application/json, text/plain, */*",
+            'accept-encoding:gzip, deflate, br',
+            'accept-language:zh-CN,zh;q=0.8',
+            'cache-control:no-cache',
+            'pragma:no-cache',
+            'user-agent:Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+            'x-requested-with:XMLHttpRequest',
+        ]);
         $fileContent = curl_exec($ch);
+
         curl_close($ch);
         return $fileContent;
     }
