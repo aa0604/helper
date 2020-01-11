@@ -196,7 +196,7 @@ trait MyActiveRecordTrait
     /**
      * @param $page
      * @param int $pageSize
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|\yii\elasticsearch\ActiveRecord
      */
     public static function getModel($page, $pageSize = null)
     {
