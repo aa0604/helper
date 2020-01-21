@@ -30,6 +30,20 @@ controllers/YiiQrCodeController 二维码：生成
 -
 ```
 
+## 配置在线二维码(YII)
+
+二维码在线生成：/qr-code/en-code?text=url
+
+二维码生成并下载：/qr-code/en-code-download?text=url
+
+配置：
+```php
+'controllerMap' => [
+    'qr-code' => [
+        'class' => 'xing\helper\controllers\YiiQrCodeController',
+    ]
+];
+```
 
 ## 微信相关
 需要安装如下依赖
