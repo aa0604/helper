@@ -32,6 +32,8 @@ controllers/YiiQrCodeController 二维码：生成
 
 ## 配置在线二维码(YII)
 
+需要先安装： composer require endroid/qr-code
+
 二维码在线生成：/qr-code/en-code?text=url
 
 二维码生成并下载：/qr-code/en-code-download?text=url
