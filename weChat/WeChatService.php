@@ -9,6 +9,7 @@
 namespace xing\helper\weChat;
 
 use EasyWeChat\Factory;
+use xing\helper\resource\HttpHelper;
 
 /**
  * Class WeChatService
@@ -27,6 +28,8 @@ class WeChatService
     public $sessionParam = 'wechatUser'; // 微信用户信息将存储在会话在这个密钥
 
     public $returnUrlParam = '';
+
+    public $result;
 
     /**
      * @param $weChatConfig
@@ -60,6 +63,32 @@ class WeChatService
         return Factory::miniProgram($this->weChatConfig);
     }
 
+
+
+//上传素材到微信
+
+    public function uploadImg($path)
+    {
+
+        $access_token = $this->getToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/media/upload?access_token='.$access_token.'&type=image';
+
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_SAFE_UPLOAD, true);
+        $data = array('file' => new \CURLFile(realpath($path)));
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, 1 );
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($curl);
+        $error = curl_error($curl);
+
+        unlink($file);
+
+        return $result;
+
+    }
     /**
      * 获取小程序的openId
      * @param $code
@@ -71,9 +100,24 @@ class WeChatService
     {
         // 获取openId
         $weChat = $this->getMiniProgram();
-        $res = $weChat->auth->session($code);
+        $res = $this->result = $weChat->auth->session($code);
         if (isset($res['errmsg'])) throw new \Exception('code不合法或忆失效：' . $res['errmsg']);
         return $res['openid'];
+    }
+
+    /**
+     * 获取token
+     * @param bool $isRefresh
+     * @return array
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function getToken($isRefresh = false)
+    {
+        return $this->getInstance()->access_token->getToken($isRefresh)['access_token'];
     }
 
     /**
