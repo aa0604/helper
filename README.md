@@ -10,7 +10,7 @@ composer require xing.chen/helper dev-master
 如需要以下功能，请另行手动输入composer安装。
 电子表格：composer require endroid/qr-code
 ## 文件目录
-```php
+```text
 - resource
 resource/HttpHelper.php http CURL 访问
 - text 字符串
@@ -23,6 +23,7 @@ yii/ARObjectHelper.php 模型AR助手（YII2）
 yii/MyActiveRecord.php 模型AR父类
 yii/MyActiveRecordTrait.php 模型AR Trait 类
 yii/MyCacheTrait.php 模型缓存类
+Migrations 生成助手
 - controllers 控制器
 controllers/YiiQrCodeController 二维码：生成
 - 
@@ -30,22 +31,6 @@ controllers/YiiQrCodeController 二维码：生成
 -
 ```
 
-## 配置在线二维码(YII)
-
-需要先安装： composer require endroid/qr-code
-
-二维码在线生成：/qr-code/en-code?text=url
-
-二维码生成并下载：/qr-code/en-code-download?text=url
-
-配置：
-```php
-'controllerMap' => [
-    'qr-code' => [
-        'class' => 'xing\helper\controllers\YiiQrCodeController',
-    ]
-];
-```
 
 ## 微信相关
 需要安装如下依赖
@@ -87,4 +72,8 @@ $config = $service->buildConfig(['能力1', '能力2'], 'url');
 // 解密（比如获取用户手机）
 $sessionKey = $service->getSessionKey($code);
 $data = $service->decryptData($encryptedData, $iv, $sessionKey);
+
+//生成 Migrations中可以使用的表完全结构
+
+Migrations::create(new Category(), $tableComment);
 ```
