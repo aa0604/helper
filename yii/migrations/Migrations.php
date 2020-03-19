@@ -2,16 +2,21 @@
 
 namespace xing\helper\yii\migrations;
 
-
+/**
+ * Class Migrations
+ * 使用示例： Migrations::create(new Category(), $tableComment);
+ * @package xing\helper\yii\migrations
+ */
 class Migrations
 {
 
     /**
      * @param \xing\helper\yii\MyActiveRecord $model
      */
-    public static function create($model, $tableCommnt = '')
+    public static function create($model)
     {
         $schema = $model->getTableSchema();
+        $tableCommnt = $model::tableName();
         echo '
         $tableOptions = null;
     
