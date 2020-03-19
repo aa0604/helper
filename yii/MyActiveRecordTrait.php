@@ -198,7 +198,7 @@ trait MyActiveRecordTrait
      * @param int $pageSize
      * @return \yii\db\ActiveQuery|\yii\elasticsearch\ActiveRecord
      */
-    public static function getModel($page, $pageSize = null)
+    public static function getModel($page = 1, $pageSize = null)
     {
         empty($pageSize) && $pageSize = static::$pageSizeDefalut;
         $offset = $pageSize * $page - $pageSize;
