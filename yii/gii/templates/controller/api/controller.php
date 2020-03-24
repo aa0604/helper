@@ -34,10 +34,8 @@ class <?= StringHelper::basename($generator->controllerClass) ?> extends <?= '\\
 
 
 <?php if (empty($generator->getActionIDs()) || in_array('view', $generator->getActionIDs())) { ?>
-    /**
-    * Renders the index view for the module
-    * @return string
-    */
+
+
     public function actionView($id)
     {
         try {
