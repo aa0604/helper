@@ -69,7 +69,7 @@ class MyActiveRecord extends ActiveRecord
      * @return int
      * @throws \yii\db\Exception
      */
-    public static function loockTableWrite()
+    public static function loockTableWrite($tables = [])
     {
         $sql = 'lock tables `' . static::tableName() . '` write';
         return static::getDb()->createCommand($sql)->execute();
@@ -79,9 +79,14 @@ class MyActiveRecord extends ActiveRecord
      * @return int
      * @throws \yii\db\Exception
      */
-    public static function loockTableRead()
+    public static function loockTableRead($tables = [])
     {
-        $sql = 'lock tables `' . static::tableName() . '` READ';
+        if (!empty($tables)) {
+            $sql = 'lock tables `' . static::tableName() . '` READ';
+            foreach ($tables as $table) $sql .= " `$table` READ,";
+            $sql = trim(',', $sql);
+        } else $sql = 'lock tables `' . static::tableName() . '` READ';
+        hr($sql);
         return static::getDb()->createCommand($sql)->execute();
     }
 
