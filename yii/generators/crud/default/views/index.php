@@ -8,7 +8,7 @@ use yii\helpers\StringHelper;
 
 $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
-
+$model = new $generator->modelClass;
 echo "<?php\n";
 ?>
 
@@ -20,7 +20,7 @@ use <?= $generator->indexWidgetType === 'grid' ? "yii\\grid\\GridView" : "yii\\w
 <?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
+$this->title = '<?= $model::getTableComment() ?>';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-index form-inline">

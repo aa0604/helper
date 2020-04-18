@@ -10,6 +10,7 @@ namespace xing\helper\yii;
 
 use xing\helper\exception\ModelYiiException;
 use yii\db\ActiveRecord;
+use Yii;
 
 /**
  * Class MyActiveRecord
@@ -51,4 +52,42 @@ class MyActiveRecord extends ActiveRecord
         if (!$this->save()) throw new ModelYiiException($this);
         return $this;
     }
+
+    public static function getTableComment()
+    {
+        $sql = 'SELECT
+ table_comment
+ FROM
+ information_schema.TABLES
+ WHERE
+ table_name = \'' . static::tableName() . "'";
+        return static::getDb()->createCommand($sql)->queryOne()['table_comment'] ?? '';
+    }
+
+    /**
+     * 表写锁
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    public static function loockTableWrite()
+    {
+        $sql = 'lock tables `' . static::tableName() . '` write';
+        return static::getDb()->createCommand($sql)->execute();
+    }
+    /**
+     * 表读锁
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    public static function loockTableRead()
+    {
+        $sql = 'lock tables `' . static::tableName() . '` READ';
+        return static::getDb()->createCommand($sql)->execute();
+    }
+
+    public static function unlockTable()
+    {
+        return static::getDb()->createCommand('unlock tables')->execute();
+    }
+
 }
