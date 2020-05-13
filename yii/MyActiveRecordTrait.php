@@ -202,10 +202,6 @@ trait MyActiveRecordTrait
     {
         empty($pageSize) && $pageSize = static::$pageSizeDefalut;
         $offset = $pageSize * $page - $pageSize;
-/*
-        $model = static::getInstance();
-        $order = [$model->primaryKey()[0] => SORT_DESC];*/
-        
         return static::find()->offset($offset)->limit($pageSize);
     }
 }
