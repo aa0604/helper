@@ -71,7 +71,11 @@ class MyActiveRecord extends ActiveRecord
      */
     public static function loockTableWrite($tables = [])
     {
-        $sql = 'lock tables `' . static::tableName() . '` write';
+        if (!empty($tables)) {
+            $sql = 'lock tables `' . static::tableName() . '` write';
+            foreach ($tables as $table) $sql .= " `$table` write,";
+            $sql = trim(',', $sql);
+        } else $sql = 'lock tables `' . static::tableName() . '` write';
         return static::getDb()->createCommand($sql)->execute();
     }
     /**
@@ -86,7 +90,6 @@ class MyActiveRecord extends ActiveRecord
             foreach ($tables as $table) $sql .= " `$table` READ,";
             $sql = trim(',', $sql);
         } else $sql = 'lock tables `' . static::tableName() . '` READ';
-        hr($sql);
         return static::getDb()->createCommand($sql)->execute();
     }
 
