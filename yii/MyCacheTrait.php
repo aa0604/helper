@@ -23,7 +23,7 @@ trait MyCacheTrait
      * @return string
      * @throws \Exception
      */
-    private static function getKey($val)
+    public static function getKey($val)
     {
         if (method_exists(static::className(), 'tableName')) {
             $table = static::tableName();
