@@ -133,7 +133,7 @@ class ReturnHelperBase
 
         header("Access-Control-Allow-Origin: $HTTP_ORIGIN" );
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-        header("Access-Control-Allow-Headers: Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With");
+        header("Access-Control-Allow-Headers: Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With, client-type, client-model");
         header("Access-Control-Allow-Credentials:true");
         header("Access-Control-Max-Age:86400000");
     }
