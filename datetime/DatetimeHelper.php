@@ -11,7 +11,7 @@ class DatetimeHelper
     {
         return intval(static::time2Day($time) / 7);
     }
-    public static function time2Day($time)
+    public static function time2day($time)
     {
         return intval($time / 86400);
     }
