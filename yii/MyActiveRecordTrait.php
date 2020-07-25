@@ -9,6 +9,8 @@
 namespace xing\helper\yii;
 
 
+use xing\helper\exception\ModelYiiException;
+
 trait MyActiveRecordTrait
 {
 
@@ -16,6 +18,31 @@ trait MyActiveRecordTrait
     public static $pageSize;
     public static $pageSizeDefalut = 20;
 
+    /**
+     * 业务读取
+     * @param $where
+     * @return null|static
+     * @throws \Exception
+     */
+    public static function logicFindOne($where)
+    {
+        // 如果小于0，会报错
+        if ($where < 0 && empty($where)) throw new \Exception('数值不可小于0');
+        $data = parent::findOne($where);
+        if (empty($data)) throw new \Exception('没有这条数据 '. preg_replace('/(.*)\\\/U', '', get_called_class()), static::$codeEmpty . (!is_array($where) ? $where : ''));
+        return $data;
+    }
+
+    /**
+     * 用于在逻辑业务时的保存方法（不同的地方在于，此方法会抛出错误）
+     * @return $this
+     * @throws ModelYiiException
+     */
+    public function logicSave()
+    {
+        if (!$this->save()) throw new ModelYiiException($this);
+        return $this;
+    }
 
     /**
      * 字段和值作为条件
