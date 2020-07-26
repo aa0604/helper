@@ -10,6 +10,7 @@ namespace xing\helper\yii;
 
 
 use xing\helper\exception\ModelYiiException;
+use yii\elasticsearch\ActiveQuery;
 
 trait MyActiveRecordTrait
 {
@@ -223,7 +224,7 @@ trait MyActiveRecordTrait
     /**
      * @param $page
      * @param int $pageSize
-     * @return \yii\db\ActiveQuery|\yii\elasticsearch\ActiveRecord
+     * @return \yii\db\ActiveQuery|ActiveQuery
      */
     public static function getModel($page = 1, $pageSize = null)
     {
