@@ -63,7 +63,7 @@ class <?= StringHelper::basename($generator->controllerClass) ?> extends <?= '\\
     public function actionCreate()
     {
         try {
-            $m =  new <?= $modelName ?>;
+            $m = new <?= $modelName ?>;
             <?php
             foreach ($model::getTableSchema()->columns as $key => $v) {
                 if ($v->autoIncrement) continue;
@@ -72,16 +72,25 @@ class <?= StringHelper::basename($generator->controllerClass) ?> extends <?= '\\
                 } else {
 
                     echo  '            ';
-                    switch ($v->type) {
-                        case 'datetime':
-                            echo "\$m->$key = date('Y-m-d H:i:s');";
+                    switch ($v->phpType) {
+
+                        case 'integer':
+                            echo '$m->'. $key . ' = intval(Yii::$app->request->post(\''. $key . '\'));';
                             break;
-                        case 'date':
-                            echo "\$m->$key = date('Y-m-d');";
-                            break;
+
                         default:
-                            echo '$m->'. $key . ' = Yii::$app->request->post(\''. $key . '\');';
-                            break;
+
+                            switch ($v->type) {
+                                case 'datetime':
+                                    echo "\$m->$key = date('Y-m-d H:i:s');";
+                                    break;
+                                case 'date':
+                                    echo "\$m->$key = date('Y-m-d');";
+                                    break;
+                                default:
+                                    echo '$m->load([\''. $key . '\' => Yii::$app->request->post(\''. $key . '\')]);';
+                                    break;
+                            }
                     }
                 }
                 echo  PHP_EOL;
