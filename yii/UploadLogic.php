@@ -62,6 +62,12 @@ class UploadLogic
         return static::getInstance()->uploadBase64($base64, $module);
     }
 
+
+    public static function getPrefixUrl()
+    {
+        return static::getInstance()->getPrefixUrl('');
+    }
+
     /**
      * 根据数据表中的url 合成绝对路径的url
      * @param $dataUrl
