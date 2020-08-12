@@ -88,7 +88,7 @@ class <?= StringHelper::basename($generator->controllerClass) ?> extends <?= '\\
                                     echo "\$m->$key = date('Y-m-d');";
                                     break;
                                 default:
-                                    echo '$m->load([\''. $key . '\' => Yii::$app->request->post(\''. $key . '\')]);';
+                                    echo '$m->load([\''. $key . '\' => Yii::$app->request->post(\''. $key . '\')], \'\');';
                                     break;
                             }
                     }
