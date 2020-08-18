@@ -19,8 +19,8 @@ $model = new $modelClass;
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\controller\Generator */
 
+$primaryKey = $model->primaryKey()[0];
 echo "<?php\n";
-
 ?>
 
 namespace <?= $generator->getControllerNamespace() ?>;
@@ -36,10 +36,10 @@ class <?= StringHelper::basename($generator->controllerClass) ?> extends <?= '\\
 <?php if (empty($generator->getActionIDs()) || in_array('view', $generator->getActionIDs())) { ?>
 
 
-    public function actionView($id)
+    public function actionView(int $<?=$primaryKey?>)
     {
         try {
-            $data = <?= $modelName ?>::findOne($id);
+            $data = <?= $modelName ?>::findOne($<?=$primaryKey?>);
             return $this->returnData($data);
         } catch (\Exception $e) {
             return $this->returnExceptionError($e);
@@ -48,7 +48,7 @@ class <?= StringHelper::basename($generator->controllerClass) ?> extends <?= '\\
 <?php }?>
 
 <?php if (empty($generator->getActionIDs()) || in_array('index', $generator->getActionIDs())) { ?>
-    public function actionIndex($page)
+    public function actionIndex(int $page)
     {
         try {
             $list = <?= $modelName ?>::getLists(['page' => $page]);
@@ -105,10 +105,10 @@ class <?= StringHelper::basename($generator->controllerClass) ?> extends <?= '\\
 <?php }?>
 
 <?php if (empty($generator->getActionIDs()) || in_array('delete', $generator->getActionIDs())) { ?>
-    public function actionDelete($id)
+    public function actionDelete(int $<?=$primaryKey?>)
     {
         try {
-            $this->userDeleteData($id);
+            $this->userDeleteData($<?=$primaryKey?>);
             return $this->returnApiSuccess();
         } catch (\Exception $e) {
             return $this->returnExceptionError($e);
