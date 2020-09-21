@@ -12,6 +12,7 @@ namespace xing\helper\yii;
 use xing\helper\exception\ModelYiiException;
 use yii\db\ActiveRecord;
 use yii\elasticsearch\ActiveQuery;
+use Yii;
 
 trait MyActiveRecordTrait
 {
