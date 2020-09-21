@@ -78,22 +78,4 @@ trait MyCacheTrait
     {
         Yii::$app->cache->delete(static::getKey($primaryId));
     }
-
-    /**
-     * 读取一条数据
-     * @param $where
-     * @return static|ActiveRecord|null|$this
-     */
-    public static function findOne($where)
-    {
-        if (static::$cacheFindOne && !is_array($where)) {
-            $key = static::getKey($where);
-            $data = Yii::$app->cache->get($key);
-            if (!empty($data) && !($data instanceof \__PHP_Incomplete_Class)) return $data;
-            $data = parent::findOne($where);
-            Yii::$app->cache->set($key, $data, static::$cacheOneTime);
-            return $data;
-        }
-        return parent::findOne($where);
-    }
 }

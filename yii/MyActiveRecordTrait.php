@@ -10,6 +10,7 @@ namespace xing\helper\yii;
 
 
 use xing\helper\exception\ModelYiiException;
+use yii\db\ActiveRecord;
 use yii\elasticsearch\ActiveQuery;
 
 trait MyActiveRecordTrait
@@ -19,6 +20,29 @@ trait MyActiveRecordTrait
     public static $pageSize;
     public static $pageSizeDefalut = 20;
 
+
+    /**
+     * 读取一条数据
+     * @param $where
+     * @return static|ActiveRecord|null|$this
+     */
+    public static function findOne($where)
+    {
+        $key = !is_array($where) ? $where : json_encode($where);
+        if (static::$cacheFindOne) {
+            $data = Yii::$app->cache->get($key);
+            if (!empty($data) && !($data instanceof \__PHP_Incomplete_Class)) return $data;
+            $data = parent::findOne($where);
+            Yii::$app->cache->set($key, $data, static::$cacheOneTime);
+            return $data;
+        } else {
+            // 当前进程的缓存
+            static $caches;
+            if (!empty($caches[$key] ?? null)) return $caches[$key];
+            return $caches[$key] = parent::findOne($where);
+
+        }
+    }
     /**
      * 业务读取
      * @param $where
@@ -29,7 +53,7 @@ trait MyActiveRecordTrait
     {
         // 如果小于0，会报错
         if ($where < 0 && empty($where)) throw new \Exception('数值不可小于0');
-        $data = parent::findOne($where);
+        $data = static::findOne($where);
         if (empty($data)) throw new \Exception('没有这条数据 '. preg_replace('/(.*)\\\/U', '', get_called_class()), static::$codeEmpty . (!is_array($where) ? $where : ''));
         return $data;
     }
