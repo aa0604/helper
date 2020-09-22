@@ -21,6 +21,9 @@ trait MyActiveRecordTrait
     public static $pageSize;
     public static $pageSizeDefalut = 20;
 
+    public static $cacheOneTime = 3600; // 缓存时间
+    public static $cacheFindOne = false;
+
 
     /**
      * 读取一条数据
