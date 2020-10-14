@@ -39,13 +39,13 @@ class StringHelper
      * @param $length
      * @param $dot
      */
-    public static function strCut($string, $length, $dot = '...', $charset = 'utf-8') {
+    public static function strCut($string, $length, $dot = '…', $charset = 'utf-8') {
         $strlen = strlen($string);
         if($strlen <= $length) return $string;
         $string = str_replace(array(' ','&nbsp;', '&amp;', '&quot;', '&#039;', '&ldquo;', '&rdquo;', '&mdash;', '&lt;', '&gt;', '&middot;', '&hellip;'), array('∵',' ', '&', '"', "'", '“', '”', '—', '<', '>', '·', '…'), $string);
         $strcut = '';
         if(strtolower($charset) == 'utf-8') {
-            $length = intval($length-strlen($dot)-$length/3);
+            $length = intval($length-strlen($dot));
             $n = $tn = $noc = 0;
             while($n < strlen($string)) {
                 $t = ord($string[$n]);
