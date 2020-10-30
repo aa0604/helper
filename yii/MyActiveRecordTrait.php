@@ -58,7 +58,7 @@ trait MyActiveRecordTrait
         // 如果小于0，会报错
         if ($where < 0 && empty($where)) throw new \Exception('数值不可小于0');
         $data = static::findOne($where);
-        if (empty($data)) throw new \Exception('没有这条数据 '. preg_replace('/(.*)\\\/U', '', get_called_class()), static::$codeEmpty . (!is_array($where) ? $where : ''));
+        if (empty($data)) throw new \Exception('没有这条数据 '. preg_replace('/(.*)\\\/U', '', get_called_class())  . json_encode($where), static::$codeEmpty . (!is_array($where) ? $where : ''));
         return $data;
     }
 
@@ -259,5 +259,20 @@ trait MyActiveRecordTrait
         empty($pageSize) && $pageSize = static::$pageSizeDefalut;
         $offset = $pageSize * $page - $pageSize;
         return static::find()->offset($offset)->limit($pageSize);
+    }
+
+    /**
+     * @param int $page
+     * @param null $pageSize
+     * @param array $autoWhere
+     * @return \yii\db\ActiveQuery|ActiveQuery
+     */
+    public static function getSearch($autoWhere = [], $page = 1, $pageSize = null)
+    {
+        $serach = static::getModel($page, $pageSize);
+        $model = new static;
+        $model->load($autoWhere, '');
+        foreach ($model as $k => $v) $serach->andFilterWhere([$k => $v]);
+        return $serach;
     }
 }
