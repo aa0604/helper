@@ -37,6 +37,11 @@ class HttpHelper
 
         if ($header) curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
+//        curl_setopt ($ch, CURLOPT_COOKIEJAR, static::$cookie); // 存放Cookie信息的文件名称
+        curl_setopt ($ch, CURLOPT_COOKIEFILE, static::$cookie); // 读取上面所储
+//        curl_setopt ($ch, CURLOPT_ENCODING, "" ); //设置为客户端支持gzip压缩
+
+
         curl_setopt ($ch, CURLOPT_RETURNTRANSFER, TRUE); // 获取的信息以文件流的形式
         curl_setopt ($ch, CURLOPT_HEADER, 0); // 显示返回的Header区域内容
 
