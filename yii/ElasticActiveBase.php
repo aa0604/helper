@@ -81,4 +81,49 @@ class ElasticActiveBase extends ActiveRecord
         return $location;
     }
 
+
+    public static function getAutoDistance($lat, $lon, $userId, $sex = null, $page = 0)
+    {
+        $cacheKey = 'CUE:GAD:'.$userId;
+        if (empty($distance = \Yii::$app->cache->get($cacheKey))) {
+            $distance = 50;
+            while (!static::existsDistance($lat, $lon, $distance, $sex)) {
+                $distance *= ++ $page;
+                if ($distance > 500) return $distance;
+            }
+        }
+        Yii::$app->cache->set($cacheKey, $distance, 1800);
+        return  $distance;
+    }
+
+    /**
+     * @param $lat
+     * @param $lon
+     * @param string $distance
+     * @param int $pageSize
+     * @param int $page
+     * @return \yii\db\QueryInterface|\yii\elasticsearch\ActiveQuery
+     */
+    public static function getDistanceModel($lat, $lon, $distance = 50, $page = 1, $pageSize = 20)
+    {
+        $lat = floatval($lat);
+        $lon = floatval($lon);
+        $where = ['geo_distance' => ['distance' => $distance . 'km', 'location' => ['lat' => $lat, 'lon' => $lon]]];
+        return static::getModel($page, $pageSize)->postFilter($where);
+    }
+
+    /**
+     * @param $lat
+     * @param $lon
+     * @param $distance
+     * @return bool
+     */
+    public static function existsDistance($lat, $lon, $distance, $sex = null, $min = 40)
+    {
+        $lat = floatval($lat);
+        $lon = floatval($lon);
+        $where = ['geo_distance' => ['distance' => $distance . 'km', 'location' => ['lat' => $lat, 'lon' => $lon]]];
+        if (!is_null($sex)) $whre['sex'] = $sex;
+        return static::getModel($min, 1)->postFilter($where)->exists();
+    }
 }
