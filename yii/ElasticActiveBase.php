@@ -6,6 +6,7 @@ namespace xing\helper\yii;
 
 use yii\elasticsearch\ActiveRecord;
 use yii\helpers\Json;
+use Yii;
 
 class ElasticActiveBase extends ActiveRecord
 {
@@ -85,7 +86,7 @@ class ElasticActiveBase extends ActiveRecord
     public static function getAutoDistance($lat, $lon, $userId, $sex = null, $page = 0)
     {
         $cacheKey = 'CUE:GAD:'.$userId;
-        if (empty($distance = \Yii::$app->cache->get($cacheKey))) {
+        if (empty($distance = Yii::$app->cache->get($cacheKey))) {
             $distance = 50;
             while (!static::existsDistance($lat, $lon, $distance, $sex)) {
                 $distance *= ++ $page;
@@ -102,7 +103,7 @@ class ElasticActiveBase extends ActiveRecord
      * @param string $distance
      * @param int $pageSize
      * @param int $page
-     * @return \yii\db\QueryInterface|\yii\elasticsearch\ActiveQuery
+     * @return \yii\db\ActiveQuery|\yii\db\QueryInterface|\yii\elasticsearch\ActiveQuery
      */
     public static function getDistanceModel($lat, $lon, $distance = 50, $page = 1, $pageSize = 20)
     {
