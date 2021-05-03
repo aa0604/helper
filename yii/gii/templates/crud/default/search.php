@@ -63,21 +63,17 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
      */
     public function search($params)
     {
-        $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
-        $order = [];
-        if (isset($params['sort']) && !empty($params['sort'])) {
-            $order = $params['sort'];
-            unset($query['sort']);
-        } elseif (isset($this->primaryKey()[0]) && !empty($this->primaryKey()[0])) {
-            $order = [$this->primaryKey()[0] => SORT_DESC];
-        }
-        $query->orderBy($order);
+        $query = static::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => false,
+            'sort' => [
+                'defaultOrder' => [
+                    $this->primaryKey()[0] => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);
