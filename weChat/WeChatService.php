@@ -63,6 +63,12 @@ class WeChatService
         return Factory::miniProgram($this->weChatConfig);
     }
 
+    public function getWork()
+    {
+        return Factory::work($this->weChatConfig);
+    }
+
+
 
 
 //上传素材到微信
