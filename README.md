@@ -8,7 +8,7 @@ composer require xing.chen/helper dev-master
 ```
 #### 依赖安装
 如需要以下功能，请另行手动输入composer安装。
-电子表格：composer require endroid/qr-code
+二维码：composer require endroid/qr-code
 ## 文件目录
 ```text
 - resource
@@ -77,3 +77,15 @@ $data = $service->decryptData($encryptedData, $iv, $sessionKey);
 
 Migrations::create(new Category(), $tableComment);
 ```
+### 二维码生成
+Yii配置:
+```php
+    'controllerMap' => [
+        'qr-code' => [
+            'class' => 'xing\helper\controllers\YiiQrCodeController',
+        ]
+    ],
+
+```
+生成的二维码图片地址: 域名+/qr-code/en-code?text=二维码字符串
+二维码下载地址:域名+/qr-code/en-code-download?text=二维码字符串
